@@ -1,0 +1,33 @@
+CREATE DATABASE IF NOT EXISTS scheduller_db;
+
+USE scheduller_db;
+
+CREATE TABLE IF NOT EXISTS tasks
+(
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    method VARCHAR(255) NOT NULL,
+
+    url VARCHAR(255) NOT NULL,
+    data VARCHAR(255) NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS jobs
+(
+    job_id INT PRIMARY KEY AUTO_INCREMENT,
+    task_id INT,
+    start_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    end_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    scheduled_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    type CHAR(10) NOT NULL,
+    timezone VARCHAR(255) NOT NULL,
+    callback_url TEXT,
+    execute_times INT,
+
+    FOREIGN KEY (task_id) REFERENCES tasks (id)
+);
+
+
+
+
+
+
