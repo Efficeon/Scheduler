@@ -5,10 +5,17 @@ import com.gtedx.exception.EntityNotFoundException;
 import com.gtedx.repositories.HeaderRepository;
 import com.gtedx.repositories.JobsRepository;
 import com.gtedx.repositories.TaskRepository;
+import org.quartz.CronExpression;
+import org.quartz.Trigger;
+import org.quartz.TriggerBuilder;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+
+import java.text.ParseException;
+import java.util.Date;
+import java.util.TimeZone;
 
 /**
  * Created by lion on 25.09.17.
@@ -32,9 +39,19 @@ public class JobController {
     @ResponseStatus(HttpStatus.CREATED)
     public Response create(@Valid @RequestBody Request<JobEntity> request) {
         JobEntity jobEntity = request.getBody();
-        headerRepository.save(jobEntity.getTask().getHeader());
+        if (jobEntity.getTask().getHeader() !=null){
+            headerRepository.save(jobEntity.getTask().getHeader());
+        }
         taskRepository.save(jobEntity.getTask());
+        try {
+            CronExpression expression = new CronExpression(jobEntity.getScheduledAt());
+            expression.setTimeZone(TimeZone.getTimeZone(request.getBody().getTimezone()));
+            jobEntity.setNextRunAt(expression.getTimeAfter(new Date()));
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
         jobsRepository.save(jobEntity);
+
         return new Response(new JobResponse(jobEntity.getJobId()));
     }
 

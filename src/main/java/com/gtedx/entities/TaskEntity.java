@@ -1,6 +1,7 @@
 package com.gtedx.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import javax.persistence.*;
@@ -11,6 +12,7 @@ import javax.validation.constraints.Pattern;
 
 @Entity
 @Table(name = "tasks")
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class TaskEntity {
 
     @Id

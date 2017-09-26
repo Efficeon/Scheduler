@@ -37,6 +37,14 @@ public class JobRequestBody {
     @JsonProperty("callback_url")
     private String callbackUrl;
 
+    @JsonProperty("next_run_at")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
+    private Date nextRunAt;
+
+    @JsonProperty("last_run_at")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
+    private Date lastRunAt;
+
     public TaskEntity getTask() {
         return task;
     }

@@ -1,6 +1,7 @@
 package com.gtedx.entities;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import javax.persistence.*;
@@ -11,6 +12,7 @@ import java.util.Date;
  */
 @Entity
 @Table(name = "jobs")
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class JobEntity {
 
     @Id
@@ -42,10 +44,21 @@ public class JobEntity {
     @JoinColumn(name = "task_id")
     private TaskEntity task;
 
+    @JsonProperty("next_run_at")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
+    @JoinColumn(name = "next_run_at")
+    private Date nextRunAt;
+
+    @JsonProperty("last_run_at")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
+    @JoinColumn(name = "last_run_at")
+    private Date lastRunAt;
+
     public JobEntity() {}
 
-    public JobEntity(int jobId, String scheduledAt, Date start_time, Date end_time, int execute_times,
-                     String type, String timezone, String callbackUrl, TaskEntity task) {
+    public JobEntity(int jobId, String scheduledAt, Date start_time, Date end_time,
+                     int execute_times, String type, String timezone, String callbackUrl,
+                     TaskEntity task, Date nextRunAt, Date lastRunAt) {
         this.jobId = jobId;
         this.scheduledAt = scheduledAt;
         this.start_time = start_time;
@@ -55,6 +68,8 @@ public class JobEntity {
         this.timezone = timezone;
         this.callbackUrl = callbackUrl;
         this.task = task;
+        this.nextRunAt = nextRunAt;
+        this.lastRunAt = lastRunAt;
     }
 
     public int getJobId() {
@@ -127,5 +142,21 @@ public class JobEntity {
 
     public void setTask(TaskEntity task) {
         this.task = task;
+    }
+
+    public Date getNextRunAt() {
+        return nextRunAt;
+    }
+
+    public void setNextRunAt(Date nextRunAt) {
+        this.nextRunAt = nextRunAt;
+    }
+
+    public Date getLastRunAt() {
+        return lastRunAt;
+    }
+
+    public void setLastRunAt(Date lastRunAt) {
+        this.lastRunAt = lastRunAt;
     }
 }
