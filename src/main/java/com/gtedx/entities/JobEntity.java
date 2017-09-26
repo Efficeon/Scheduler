@@ -13,41 +13,40 @@ import java.util.Date;
 @Table(name = "jobs")
 public class JobEntity {
 
-    @JsonProperty("task")
-    @OneToOne
-    @JoinColumn(name = "task_id")
-    private TaskEntity task;
-
     @Id
     @GeneratedValue
     @JsonProperty("job_id")
-    private int id;
+    private int jobId;
 
     @JsonProperty("scheduled_at")
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy HH:mm:ss")
-    private Date scheduledAt;
+    private String scheduledAt;
 
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy HH:mm:ss")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
     private Date start_time;
 
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy HH:mm:ss")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
     private Date end_time;
 
     private int execute_times;
 
     private String type;
 
+    @JsonProperty("time_zone")
     private String timezone;
 
     @JsonProperty("callback_url")
     private String callbackUrl;
 
+    @JsonProperty("task")
+    @OneToOne
+    @JoinColumn(name = "task_id")
+    private TaskEntity task;
+
     public JobEntity() {}
 
-    public JobEntity(int jobId, Date scheduledAt,
-                     Date start_time, Date end_time, int execute_times,
-                     String type, String timezone, String callbackUrl) {
-        this.id = jobId;
+    public JobEntity(int jobId, String scheduledAt, Date start_time, Date end_time, int execute_times,
+                     String type, String timezone, String callbackUrl, TaskEntity task) {
+        this.jobId = jobId;
         this.scheduledAt = scheduledAt;
         this.start_time = start_time;
         this.end_time = end_time;
@@ -55,21 +54,22 @@ public class JobEntity {
         this.type = type;
         this.timezone = timezone;
         this.callbackUrl = callbackUrl;
+        this.task = task;
     }
 
-    public int getId() {
-        return id;
+    public int getJobId() {
+        return jobId;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setJobId(int jobId) {
+        this.jobId = jobId;
     }
 
-    public Date getScheduledAt() {
+    public String getScheduledAt() {
         return scheduledAt;
     }
 
-    public void setScheduledAt(Date scheduledAt) {
+    public void setScheduledAt(String scheduledAt) {
         this.scheduledAt = scheduledAt;
     }
 
@@ -119,5 +119,13 @@ public class JobEntity {
 
     public void setCallbackUrl(String callbackUrl) {
         this.callbackUrl = callbackUrl;
+    }
+
+    public TaskEntity getTask() {
+        return task;
+    }
+
+    public void setTask(TaskEntity task) {
+        this.task = task;
     }
 }

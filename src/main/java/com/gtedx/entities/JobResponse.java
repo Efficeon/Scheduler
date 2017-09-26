@@ -10,13 +10,17 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 public class JobResponse {
 
     @JsonProperty("job_id")
-    private String jobId;
+    private int jobId;
 
-    public String getJobId() {
+    public JobResponse(int jobId) {
+        this.jobId = jobId;
+    }
+
+    public int getJobId() {
         return jobId;
     }
 
-    public void setJobId(String jobId) {
+    public void setJobId(int jobId) {
         this.jobId = jobId;
     }
 }
