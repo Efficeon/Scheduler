@@ -1,6 +1,6 @@
-CREATE DATABASE IF NOT EXISTS scheduller_db;
+CREATE DATABASE IF NOT EXISTS scheduler_db;
 
-USE scheduller_db;
+USE scheduler_db;
 
 CREATE TABLE IF NOT EXISTS headers
 (

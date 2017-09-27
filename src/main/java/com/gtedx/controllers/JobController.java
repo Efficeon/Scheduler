@@ -6,8 +6,6 @@ import com.gtedx.repositories.HeaderRepository;
 import com.gtedx.repositories.JobsRepository;
 import com.gtedx.repositories.TaskRepository;
 import org.quartz.CronExpression;
-import org.quartz.Trigger;
-import org.quartz.TriggerBuilder;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
