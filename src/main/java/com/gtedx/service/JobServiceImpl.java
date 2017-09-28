@@ -1,19 +1,18 @@
 package com.gtedx.service;
 
 import com.gtedx.entities.JobEntity;
-import com.gtedx.entities.JobResponse;
+
 import com.gtedx.entities.Response;
 import com.gtedx.exception.JobException;
 import com.gtedx.repositories.JobsRepository;
 import org.quartz.*;
-import org.springframework.http.ResponseEntity;
-import org.springframework.scheduling.support.SimpleTriggerContext;
+
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 import java.text.ParseException;
 import java.util.Date;
-import java.util.UUID;
+
 
 /**
  * Created by lion on 25.09.17.
@@ -44,7 +43,7 @@ public class JobServiceImpl implements JobService {
             scheduler.scheduleJob(jobDetail, trigger);
             //sendCallback(jobEntity);
         } catch (SchedulerException e) {
-            //TODO описать действия на случай неудачного выполнения шедулером
+
             jobsRepository.save(jobEntity);
             throw new JobException(e);
         }
@@ -71,8 +70,7 @@ public class JobServiceImpl implements JobService {
 
             try {
                 CronExpression expression = new CronExpression(jobEntity.getScheduledAt());
-                System.out.println("+++++++++++++TODO выполняется работа отправки HTTP запроса");
-                //TODO выполняется работа отправки HTTP запроса
+
                 jobEntity.setLastRunAt(jobEntity.getNextRunAt());
                 if (expression.getNextValidTimeAfter(new Date()).after(jobEntity.getEnd_time())){
                     jobEntity.setNextRunAt(null);
@@ -80,10 +78,9 @@ public class JobServiceImpl implements JobService {
                     jobEntity.setNextRunAt(expression.getNextValidTimeAfter(new Date()));
                 }
                 jobsRepository.save(jobEntity);
-                System.out.println("****"+jobEntity.getLastRunAt());
-                System.out.println("****"+jobEntity.getNextRunAt());
+
             } catch (RuntimeException e) {
-                //TODO описать действия на случай неудачного выполнения шедулером
+
                 throw e;
             } catch (ParseException e) {
                 e.printStackTrace();

@@ -6,19 +6,15 @@ import com.gtedx.repositories.HeaderRepository;
 import com.gtedx.repositories.JobsRepository;
 import com.gtedx.repositories.TaskRepository;
 import com.gtedx.service.JobService;
-import org.quartz.CronExpression;
-import org.springframework.http.HttpHeaders;
+
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
-import java.text.DateFormat;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.TimeZone;
+
 
 /**
  * Created by lion on 25.09.17.
