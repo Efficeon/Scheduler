@@ -23,6 +23,7 @@ public class JobEntity {
     @JsonProperty("scheduled_at")
     private String scheduledAt;
 
+    @JoinColumn(name = "start_time")
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
     private Date start_time;
 

@@ -5,13 +5,18 @@ import com.gtedx.exception.EntityNotFoundException;
 import com.gtedx.repositories.HeaderRepository;
 import com.gtedx.repositories.JobsRepository;
 import com.gtedx.repositories.TaskRepository;
+import com.gtedx.service.JobService;
 import org.quartz.CronExpression;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
+import java.text.DateFormat;
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.TimeZone;
 
@@ -25,32 +30,27 @@ public class JobController {
     private final JobsRepository jobsRepository;
     private final TaskRepository taskRepository;
     private final HeaderRepository headerRepository;
-    public JobController(JobsRepository jobsRepository,
-                         TaskRepository taskRepository,
-                         HeaderRepository headerRepository) {
+    private final JobService jobService;
+
+    public JobController(JobsRepository jobsRepository, TaskRepository taskRepository,
+                         HeaderRepository headerRepository, JobService jobService) {
         this.jobsRepository = jobsRepository;
         this.taskRepository = taskRepository;
         this.headerRepository = headerRepository;
+        this.jobService = jobService;
     }
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public Response create(@Valid @RequestBody Request<JobEntity> request) {
+    public Response create(@Valid @RequestBody Request<JobEntity> request) throws ParseException {
         JobEntity jobEntity = request.getBody();
         if (jobEntity.getTask().getHeader() !=null){
             headerRepository.save(jobEntity.getTask().getHeader());
         }
         taskRepository.save(jobEntity.getTask());
-        try {
-            CronExpression expression = new CronExpression(jobEntity.getScheduledAt());
-            expression.setTimeZone(TimeZone.getTimeZone(request.getBody().getTimezone()));
-            jobEntity.setNextRunAt(expression.getTimeAfter(new Date()));
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
         jobsRepository.save(jobEntity);
-
-        return new Response(new JobResponse(jobEntity.getJobId()));
+        jobService.startJob(jobEntity.getJobId());
+         return new Response(new JobResponse(jobEntity.getJobId()));
     }
 
     @GetMapping("/{job_id}")

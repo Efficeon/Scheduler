@@ -7,5 +7,5 @@ import org.springframework.data.repository.CrudRepository;
  * Created by lion on 26.09.17.
  */
 public interface JobsRepository extends CrudRepository<JobEntity, Integer> {
-    JobEntity findByJobId(String jobId);
+    JobEntity findByJobId(int jobId);
 }

@@ -25,8 +25,8 @@ CREATE TABLE IF NOT EXISTS jobs
 (
     job_id         INT PRIMARY KEY AUTO_INCREMENT,
     task_id        INT,
-    start_time     TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    end_time       TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    start_time     DATETIME ,
+    end_time       DATETIME ,
     scheduled_at   CHAR(20),
     type           CHAR(10),
     timezone       VARCHAR(255),
