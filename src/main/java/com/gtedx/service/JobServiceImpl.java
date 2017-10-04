@@ -1,5 +1,6 @@
 package com.gtedx.service;
 
+import com.gtedx.entities.CallbackResponse;
 import com.gtedx.entities.JobEntity;
 import com.gtedx.entities.Response;
 import com.gtedx.entities.ResultJobEntity;
@@ -44,7 +45,6 @@ public class JobServiceImpl implements JobService {
                 sendCallback(jobEntity);
             }
         } catch (SchedulerException e) {
-            jobsRepository.save(jobEntity);
             throw new JobException(e);
         }
     }
@@ -87,7 +87,9 @@ public class JobServiceImpl implements JobService {
 
     private static void sendCallback(JobEntity jobEntity) {
         RestTemplate template = new RestTemplate();
-        template.postForEntity(jobEntity.getCallbackUrl(), new Response<>(jobEntity), Object.class);
+        template.postForEntity( jobEntity.getCallbackUrl(),
+                                new Response<>(new CallbackResponse(jobEntity.getJobId(), jobEntity.getResultJod())),
+                                Object.class);
     }
 
     private static ResultJobEntity executionJob(JobEntity jobEntity, HttpMethod httpMethod){
