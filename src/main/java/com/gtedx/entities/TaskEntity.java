@@ -1,11 +1,12 @@
 package com.gtedx.entities;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.*;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.gtedx.controllers.TaskEntityDeserializer;
 
 import javax.persistence.*;
 import javax.validation.constraints.Pattern;
+
 /**
  * Created by lion on 25.09.17.
  */
@@ -13,6 +14,7 @@ import javax.validation.constraints.Pattern;
 @Entity
 @Table(name = "tasks")
 @JsonInclude(JsonInclude.Include.NON_NULL)
+@JsonDeserialize(using = TaskEntityDeserializer.class)
 public class TaskEntity {
 
     @Id
@@ -32,7 +34,7 @@ public class TaskEntity {
     private String data;
 
     @JsonProperty("headers")
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "header_id")
     private RequestHeaderEntity header;
 

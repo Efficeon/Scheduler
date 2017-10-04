@@ -14,6 +14,8 @@ public class Response<T> {
 
     private T body;
 
+    private CallbackResponse result;
+
     public Response(T body) {
         this.body = body;
     }
@@ -51,5 +53,13 @@ public class Response<T> {
 
     public void setBody(T body) {
         this.body = body;
+    }
+
+    public CallbackResponse getResult() {
+        return result;
+    }
+
+    public void setResult(CallbackResponse result) {
+        this.result = result;
     }
 }

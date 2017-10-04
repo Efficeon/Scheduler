@@ -21,10 +21,21 @@ CREATE TABLE IF NOT EXISTS tasks
     FOREIGN KEY (header_id) REFERENCES headers (header_id)
 );
 
+CREATE TABLE IF NOT EXISTS results
+(
+    result_id        INT PRIMARY KEY AUTO_INCREMENT NOT NULL,
+
+    time_execution   DATETIME ,
+    code             VARCHAR(3),
+    body             VARCHAR(255)
+);
+
 CREATE TABLE IF NOT EXISTS jobs
 (
     job_id         INT PRIMARY KEY AUTO_INCREMENT,
     task_id        INT,
+    result_id      INT,
+
     start_time     DATETIME ,
     end_time       DATETIME ,
     scheduled_at   CHAR(20),
@@ -35,8 +46,10 @@ CREATE TABLE IF NOT EXISTS jobs
     next_run_at    DATETIME ,
     last_run_at    DATETIME ,
 
-    FOREIGN KEY (task_id)   REFERENCES tasks   (task_id)
+    FOREIGN KEY (task_id)   REFERENCES tasks   (task_id),
+    FOREIGN KEY (result_id)   REFERENCES results   (result_id)
 );
+
 
 
 

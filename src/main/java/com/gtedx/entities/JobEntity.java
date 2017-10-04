@@ -41,9 +41,14 @@ public class JobEntity {
     private String callbackUrl;
 
     @JsonProperty("task")
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "task_id")
     private TaskEntity task;
+
+    @JsonProperty("last_run_result")
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "result_id")
+    private ResultJobEntity resultJod;
 
     @JsonProperty("next_run_at")
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
@@ -57,9 +62,9 @@ public class JobEntity {
 
     public JobEntity() {}
 
-    public JobEntity(int jobId, String scheduledAt, Date start_time, Date end_time,
-                     int execute_times, String type, String timezone, String callbackUrl,
-                     TaskEntity task, Date nextRunAt, Date lastRunAt) {
+    public JobEntity(int jobId, String scheduledAt, Date start_time, Date end_time, int execute_times,
+                     String type, String timezone, String callbackUrl, TaskEntity task,
+                     ResultJobEntity resultJod, Date nextRunAt, Date lastRunAt) {
         this.jobId = jobId;
         this.scheduledAt = scheduledAt;
         this.start_time = start_time;
@@ -69,6 +74,7 @@ public class JobEntity {
         this.timezone = timezone;
         this.callbackUrl = callbackUrl;
         this.task = task;
+        this.resultJod = resultJod;
         this.nextRunAt = nextRunAt;
         this.lastRunAt = lastRunAt;
     }
@@ -143,6 +149,14 @@ public class JobEntity {
 
     public void setTask(TaskEntity task) {
         this.task = task;
+    }
+
+    public ResultJobEntity getResultJod() {
+        return resultJod;
+    }
+
+    public void setResultJod(ResultJobEntity resultJod) {
+        this.resultJod = resultJod;
     }
 
     public Date getNextRunAt() {
