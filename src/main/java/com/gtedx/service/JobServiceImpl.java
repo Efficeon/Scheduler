@@ -105,7 +105,7 @@ public class JobServiceImpl implements JobService {
             headers.add("Authorization", jobEntity.getTask().getHeader().getAuthorization());
         }
 
-        HttpEntity<Object> requestEntity = new HttpEntity<Object>(jobEntity, headers);
+        HttpEntity<Object> requestEntity = new HttpEntity<Object>(jobEntity.getTask().getData(), headers);
         ResponseEntity response = restTemplate.exchange(jobEntity.getTask().getUrl(),
                                                         httpMethod,
                                                         requestEntity,
