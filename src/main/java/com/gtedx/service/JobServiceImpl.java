@@ -9,6 +9,8 @@ import com.gtedx.repositories.JobsRepository;
 import org.quartz.*;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.HttpClientErrorException;
+import org.springframework.web.client.ResourceAccessException;
 import org.springframework.web.client.RestTemplate;
 
 import java.text.ParseException;
@@ -41,9 +43,6 @@ public class JobServiceImpl implements JobService {
 
         try {
             scheduler.scheduleJob(jobDetail, trigger);
-            if (jobEntity.getCallbackUrl() != null){
-                sendCallback(jobEntity);
-            }
         } catch (SchedulerException e) {
             throw new JobException(e);
         }
@@ -79,6 +78,13 @@ public class JobServiceImpl implements JobService {
                 jobEntity.setResultJod(executionJob(jobEntity, HttpMethod.valueOf(jobEntity.getTask().getMethod())));
 
                 jobsRepository.save(jobEntity);
+                try {
+                   if (jobEntity.getCallbackUrl() != null)  sendCallback(jobEntity);
+                } catch (HttpClientErrorException | ResourceAccessException e){
+                    System.out.println(e.toString());
+                }
+
+
             } catch (ParseException e) {
                 e.printStackTrace();
             }
@@ -86,10 +92,14 @@ public class JobServiceImpl implements JobService {
     }
 
     private static void sendCallback(JobEntity jobEntity) {
-        RestTemplate template = new RestTemplate();
-        template.postForEntity( jobEntity.getCallbackUrl(),
-                                new Response<>(new CallbackResponse(jobEntity.getJobId(), jobEntity.getResultJod())),
-                                Object.class);
+        try {
+            RestTemplate template = new RestTemplate();
+            template.postForEntity( jobEntity.getCallbackUrl(),
+                    new Response<>(new CallbackResponse(jobEntity.getJobId(), jobEntity.getResultJod())),
+                    Object.class);
+        } catch (HttpClientErrorException | ResourceAccessException e){
+            System.out.println(e.toString()+1);
+        }
     }
 
     private static ResultJobEntity executionJob(JobEntity jobEntity, HttpMethod httpMethod){
@@ -106,13 +116,25 @@ public class JobServiceImpl implements JobService {
         }
 
         HttpEntity<Object> requestEntity = new HttpEntity<Object>(jobEntity.getTask().getData(), headers);
-        ResponseEntity response = restTemplate.exchange(jobEntity.getTask().getUrl(),httpMethod,requestEntity,Object.class);
+        ResponseEntity response;
         ResultJobEntity resultJob = new ResultJobEntity();
-        if (response.getBody() != null){
-            resultJob.setBody(response.getBody().toString());
+        try {
+            response = restTemplate.exchange(jobEntity.getTask().getUrl(),httpMethod,requestEntity,Object.class);
+
+            if (response.getBody() != null) {
+                resultJob.setBody(response.getBody().toString());
+            }
+            resultJob.setCode(response.getStatusCode().value());
+
+        }catch (HttpClientErrorException exception){
+            resultJob.setBody(exception.toString());
+            resultJob.setCode(exception.getStatusCode().value());
+        } catch (ResourceAccessException e){
+            System.out.println(e.toString());
+        } finally {
+            resultJob.setTimeExecution(jobEntity.getLastRunAt());
+            resultJob.setTimeExecution(jobEntity.getLastRunAt());
         }
-        resultJob.setCode(response.getStatusCode().value());
-        resultJob.setTimeExecution(jobEntity.getNextRunAt());
 
         return resultJob;
     }
