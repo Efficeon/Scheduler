@@ -9,7 +9,7 @@ public class CallbackResponse {
     @JsonProperty("job_id")
     private int jobId;
 
-    @JsonProperty("result")
+    @JsonProperty("body")
     ResultJobEntity result;
 
     public CallbackResponse(int jobId, ResultJobEntity result) {

@@ -106,10 +106,7 @@ public class JobServiceImpl implements JobService {
         }
 
         HttpEntity<Object> requestEntity = new HttpEntity<Object>(jobEntity.getTask().getData(), headers);
-        ResponseEntity response = restTemplate.exchange(jobEntity.getTask().getUrl(),
-                                                        httpMethod,
-                                                        requestEntity,
-                                                        Object.class);
+        ResponseEntity response = restTemplate.exchange(jobEntity.getTask().getUrl(),httpMethod,requestEntity,Object.class);
         ResultJobEntity resultJob = new ResultJobEntity();
         if (response.getBody() != null){
             resultJob.setBody(response.getBody().toString());
