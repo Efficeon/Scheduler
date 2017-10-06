@@ -11,7 +11,7 @@ http://localhost:9081/jobs/${job_id}
 Data configuration in application.properties 
 
 
-##-----------------------------------------------
+
 ## Swagger REST API documentation presented here:
 http://localhost:9081/swagger-ui.html
 
@@ -34,6 +34,7 @@ The Scheduler Service consists of following modules:
 ​5.1.​ API
 ​5.1.1.​ Create job - POST /jobs
 Request:
+```
 {
  "body": {
    "task": { // the format of a task is defined by each adapter
@@ -55,23 +56,29 @@ Request:
    "callback_url": "https://result.com/callback" // optional
  }
 },
+```
 
 Response:
+```
 {
  "body": {
    "job_id": "12345678" // unique id of the job
  }
 }
+```
 
 5.1.2.​ Get job status - GET /jobs/${job_id}
 Request:
+```
 {
  "body": {
    "job_id": "12345678" 
  }
 }
+```
 
 Response:
+```
 {
  "body":{
    "job_id": "12345678",
@@ -100,17 +107,19 @@ Response:
    }
  }
 }
-
+```
 
 5.1.3.​ Recall job - DELETE /jobs/${job_id}
 Request:
+```
 {
  "body": {
    "job_id": "12345678" 
  }
 }
-
+```
 Response:
+```
 {
  "code": 200
  "message": "job deleted successfully",
@@ -127,7 +136,7 @@ POST https://result.com/callback
    }
  }
 }
-
+```
 
 
 
