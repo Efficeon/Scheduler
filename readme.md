@@ -1,4 +1,4 @@
-## ​ Create job - POST /jobs
+##  Create job - POST /jobs
 http://localhost:9081/jobs/
 
 ##  Get job status - GET /jobs/${job_id}
@@ -32,14 +32,10 @@ The Scheduler Service consists of following modules:
 
 
 
-3.​ Workflow (--no information--)
-
-​4.​ Data model (--no information--)
-
-​4.1.​ Data structure (--no information--)
-
-​4.2.​ Database design (--no information--)
-
+## 3.​ Workflow (--no information--)
+## ​4.​ Data model (--no information--)
+## 4.1.​ Data structure (--no information--)
+## ​4.2.​ Database design (--no information--)
 ## ​5.​ System design description 
 ## 5.1.​ API
 ## 5.1.1.​ Create job - POST /jobs
