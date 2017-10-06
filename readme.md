@@ -15,7 +15,7 @@ Data configuration in application.properties
 ## Swagger REST API documentation presented here:
 http://localhost:9081/swagger-ui.html
 
-## **`G501.02.01-Scheduler Service detail desig`**n
+## **`G501.02.01-Scheduler Service detail design`**
 
 ## 1.​ System introduction (--no information--)
 ## 1.1.​ Overview (--no information--)
