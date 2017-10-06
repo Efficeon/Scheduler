@@ -1,10 +1,10 @@
-## 1.​ Create job - POST /jobs
+## ​ Create job - POST /jobs
 http://localhost:9081/jobs/
 
-## 2. Get job status - GET /jobs/${job_id}
+##  Get job status - GET /jobs/${job_id}
 http://localhost:9081/jobs/${job_id}
 
-## 3. Recall job - DELETE /jobs/${job_id}
+##  Recall job - DELETE /jobs/${job_id}
 http://localhost:9081/jobs/${job_id}
 
 ## Database configuration
@@ -15,7 +15,14 @@ Data configuration in application.properties
 ## Swagger REST API documentation presented here:
 http://localhost:9081/swagger-ui.html
 
-## Architecture
+## **`G501.02.01-Scheduler Service detail desig`**n
+
+## 1.​ System introduction (--no information--)
+## 1.1.​ Overview (--no information--)
+## 1.2.​ Reference (--no information--)
+## 1.2.1.​ Design reference (--no information--)
+
+## 2. Architecture
 Hylaa Scheduler Service is a component of the PaaS application. It allows PaaS and other SaaS services to schedule one-time or recursive tasks via its RESTful API. 
 The Scheduler Service consists of following modules: 
 1. HTTP Server: the HTTP server is based on Spring Boot and is able to handle RESTful API request from other services.
