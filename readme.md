@@ -71,7 +71,7 @@ The Scheduler Service consists of following modules:
 ```
 
 ## 5.1.2.​ Get job status - GET /jobs/${job_id}
-##Request:
+## Request:
 ```
 {
  "body": {
