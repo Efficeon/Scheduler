@@ -33,10 +33,10 @@ The Scheduler Service consists of following modules:
 
 ​4.2.​ Database design (--no information--)
 
-​5.​ System design description 
-​5.1.​ API
-​5.1.1.​ Create job - POST /jobs
-Request:
+##​5.​ System design description 
+##5.1.​ API
+##5.1.1.​ Create job - POST /jobs
+##Request:
 ```
 {
  "body": {
@@ -61,7 +61,7 @@ Request:
 },
 ```
 
-Response:
+##Response:
 ```
 {
  "body": {
@@ -70,8 +70,8 @@ Response:
 }
 ```
 
-5.1.2.​ Get job status - GET /jobs/${job_id}
-Request:
+##5.1.2.​ Get job status - GET /jobs/${job_id}
+##Request:
 ```
 {
  "body": {
@@ -80,7 +80,7 @@ Request:
 }
 ```
 
-Response:
+##Response:
 ```
 {
  "body":{
@@ -112,8 +112,8 @@ Response:
 }
 ```
 
-5.1.3.​ Recall job - DELETE /jobs/${job_id}
-Request:
+##5.1.3.​ Recall job - DELETE /jobs/${job_id}
+##Request:
 ```
 {
  "body": {
@@ -121,15 +121,16 @@ Request:
  }
 }
 ```
-Response:
+##Response:
 ```
 {
  "code": 200
  "message": "job deleted successfully",
 }
-
-5.1.4. Callback - for other SaaS to implement
-POST https://result.com/callback
+```
+##5.1.4. Callback - for other SaaS to implement
+##POST https://result.com/callback
+```
 {
  "body": {
    "job_id": "12345678",
