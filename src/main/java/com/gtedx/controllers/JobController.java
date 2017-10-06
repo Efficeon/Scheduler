@@ -21,6 +21,8 @@ import java.text.ParseException;
  */
 @RestController
 @RequestMapping("/jobs")
+@CrossOrigin(exposedHeaders = "errors, content-type")
+
 public class JobController {
 
     private final JobsRepository jobsRepository;
