@@ -25,9 +25,12 @@ The Scheduler Service consists of following modules:
 
 
 
-​3.​ Workflow (--no information--)
-​4.​ Data model (--no information--)
+3.​ Workflow (--no information--)
+
+​4.​ Data model (--no information--
+
 ​4.1.​ Data structure (--no information--)
+
 ​4.2.​ Database design (--no information--)
 
 ​5.​ System design description 
