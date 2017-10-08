@@ -34,7 +34,6 @@ public class JobServiceImpl implements JobService {
         this.jobsRepository = jobsRepository;
     }
 
-    @PostConstruct
     public void startJobFromDB(){
         List<JobEntity> oldJob = Lists.newArrayList(jobsRepository.findAll());
         for (JobEntity job : oldJob){
