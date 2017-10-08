@@ -1,5 +1,6 @@
 package com.gtedx.service;
 
+import com.google.common.collect.Lists;
 import com.gtedx.entities.CallbackResponse;
 import com.gtedx.entities.JobEntity;
 import com.gtedx.entities.Response;
@@ -13,8 +14,12 @@ import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.ResourceAccessException;
 import org.springframework.web.client.RestTemplate;
 
+import javax.annotation.PostConstruct;
 import java.text.ParseException;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
+import java.util.Set;
 
 /**
  * Created by lion on 25.09.17.
@@ -27,6 +32,14 @@ public class JobServiceImpl implements JobService {
     public JobServiceImpl(Scheduler scheduler, JobsRepository jobsRepository) {
         this.scheduler = scheduler;
         this.jobsRepository = jobsRepository;
+    }
+
+    @PostConstruct
+    public void startJobFromDB(){
+        List<JobEntity> oldJob = Lists.newArrayList(jobsRepository.findAll());
+        for (JobEntity job : oldJob){
+            this.startJob(job.getJobId());
+        }
     }
 
     @Override
